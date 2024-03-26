@@ -1,9 +1,9 @@
-label 
+=label 
 & " N:" 
-& FLOOR(NEXT_20_REP_TARGET((XREPMAX(FLOOR(MAX(line)), 19)), 2.5)) 
+& FLOOR(NEXT_20_REP_TARGET((XREPMAX(FLOOR(MAX(line)), 20)), increment)) 
 & IF(special=0,
     " pS:" 
-& FLOOR(WEIGHT_PER_SIDE(NEXT_20_REP_TARGET((XREPMAX(FLOOR(MAX(line)), 19)), 2.5), bar_weight, number_of_sides)),    "")
+& FLOOR(WEIGHT_PER_SIDE(NEXT_20_REP_TARGET((XREPMAX(FLOOR(MAX(line)), 20)), increment), bar_weight, number_of_sides)),    "")
 & IF(
     special=0,
     " pS:" 
@@ -13,10 +13,10 @@ label
                 (
                     XREPMAX(
                         FLOOR(MAX(line)),
-                        19                    
+                        20                    
                     )                
                 ),
-                2.5
+                increment
             ),
             bar_weight,
             number_of_sides
@@ -33,10 +33,10 @@ label
                 XREPMAX(
                     FLOOR(MAX(line)
                 ),
-                19
+                20
             )
         ),
-        2.5
+        increment
         )    
     ),    
     ""
@@ -47,7 +47,7 @@ label
         " WEEKS:" 
         & ROUND((one_rep_goal - max(line))/((MAX(line)-MIN(line))/4))
         &"->"
-        & XREPMAX(one_rep_goal,20)
+        & ROUND(XREPMAX(one_rep_goal,20))
     ),
     ""
 )
