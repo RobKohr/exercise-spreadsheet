@@ -1,39 +1,34 @@
 =label 
 & " N:" 
-& FLOOR(NEXT_20_REP_TARGET((XREPMAX(FLOOR(MAX(line)), 20)), increment)) 
-& IF(special=0,
-    " pS:" 
-& FLOOR(WEIGHT_PER_SIDE(NEXT_20_REP_TARGET((XREPMAX(FLOOR(MAX(line)), 20)), increment), bar_weight, number_of_sides)),    "")
+& FLOOR(NEXT_TARGET((XREPMAX(FLOOR(MAX(line)), target_reps)), increment)) 
 & IF(
     special=0,
-    " pS:" 
-    & FLOOR(
+    " pS:" & FLOOR(
         WEIGHT_PER_SIDE(
-            NEXT_20_REP_TARGET(
+            NEXT_TARGET(
                 (
                     XREPMAX(
                         FLOOR(MAX(line)),
-                        20                    
+                        target_reps                    
                     )                
                 ),
                 increment
             ),
             bar_weight,
             number_of_sides
-        )    
-),    
-"")
+        )    ),    
+    "")
 & IF(
     special="bands",
     " bands:" 
     &
     GET_BANDS(
-        NEXT_20_REP_TARGET(
+        NEXT_TARGET(
             (
                 XREPMAX(
                     FLOOR(MAX(line)
                 ),
-                20
+                target_reps
             )
         ),
         increment
@@ -41,13 +36,15 @@
     ),    
     ""
 )
+& IF(default_target_reps<>target_reps, " Rp:"&target_reps, "")
+
 & IF(
-    AND(one_rep_goal > 0, (MAX(line)<>MIN(line))),
+    AND(one_rep_goal > 0, (MAX(line)<>FIRST(line))),
     (
         " WEEKS:" 
-        & ROUND((one_rep_goal - max(line))/((MAX(line)-MIN(line))/4))
+        & ROUND((one_rep_goal - max(line))/((MAX(line)-FIRST(line))/4))
         &"->"
-        & ROUND(XREPMAX(one_rep_goal,20))
+        & ROUND(XREPMAX(one_rep_goal,target_reps))
     ),
     ""
 )
