@@ -1,50 +1,56 @@
-=label 
-& " N:" 
-& FLOOR(NEXT_TARGET((XREPMAX(FLOOR(MAX(line)), target_reps)), increment)) 
-& IF(
-    special=0,
-    " pS:" & FLOOR(
-        WEIGHT_PER_SIDE(
-            NEXT_TARGET(
-                (
-                    XREPMAX(
-                        FLOOR(MAX(line)),
-                        target_reps                    
-                    )                
+=IF(
+COUNT(GET_LINE())<1,
+label,
+    (
+        label 
+        & " N:" 
+        & FLOOR(NEXT_TARGET((XREPMAX(FLOOR(MAX(line)), target_reps)), increment)) 
+        & IF(
+            special=0,
+            " pS:" & FLOOR(
+                WEIGHT_PER_SIDE(
+                    NEXT_TARGET(
+                        (
+                            XREPMAX(
+                                FLOOR(MAX(line)),
+                                target_reps                    
+                            )                
+                        ),
+                        increment
+                    ),
+                    bar_weight,
+                    number_of_sides
+                )    ),    
+            "")
+        & IF(
+            special="bands",
+            " bands:" 
+            &
+            GET_BANDS(
+                NEXT_TARGET(
+                    (
+                        XREPMAX(
+                            FLOOR(MAX(line)
+                        ),
+                        target_reps
+                    )
                 ),
                 increment
-            ),
-            bar_weight,
-            number_of_sides
-        )    ),    
-    "")
-& IF(
-    special="bands",
-    " bands:" 
-    &
-    GET_BANDS(
-        NEXT_TARGET(
-            (
-                XREPMAX(
-                    FLOOR(MAX(line)
-                ),
-                target_reps
-            )
-        ),
-        increment
-        )    
-    ),    
-    ""
-)
-& IF(default_target_reps<>target_reps, " Rp:"&target_reps, "")
+                )    
+            ),    
+            ""
+        )
+        & IF(default_target_reps<>target_reps, " Rp:"&target_reps, "")
 
-& IF(
-    AND(one_rep_goal > 0, (MAX(line)<>FIRST(line))),
-    (
-        " WEEKS:" 
-        & ROUND((one_rep_goal - max(line))/((MAX(line)-FIRST(line))/4))
-        &"->"
-        & ROUND(XREPMAX(one_rep_goal,target_reps))
-    ),
-    ""
+        & IF(
+            AND(one_rep_goal > 0, (MAX(line)<>FIRST(line))),
+            (
+                " WEEKS:" 
+                & ROUND((one_rep_goal - max(line))/((MAX(line)-FIRST(line))/4))
+                &"->"
+                & ROUND(XREPMAX(one_rep_goal,target_reps))
+            ),
+            ""
+        )
+    )
 )
