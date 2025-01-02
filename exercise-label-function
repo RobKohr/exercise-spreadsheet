@@ -50,7 +50,7 @@ label,
                 &"->"
                 & ROUND(XREPMAX(one_rep_goal,target_reps))
             ),
-            ""
+            "Goal" & ROUND(XREPMAX(one_rep_goal,target_reps))
         )
     )
 )
